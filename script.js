@@ -263,7 +263,7 @@ function render() {
         e.tabIndex = 0;
         e.setAttribute('role', 'button');
         e.setAttribute('aria-label', i === 0 ? 'Ratinho' : `Peça ${i}`);
-        if (i === 0) e.innerHTML = '<span aria-hidden="true">🐭</span><small>RATINHO</small>';
+        if (i === 0) e.innerHTML = '<span aria-hidden="true">🐭</span>';
         e.addEventListener('pointerdown', ev => {
             if (won) return;
             selected = i;
