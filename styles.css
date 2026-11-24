@@ -293,13 +293,137 @@ kbd {
     font-size: .84rem;
 }
 
+.ai-panel {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #dfd1b8;
+}
+
+.ai-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ai-heading h2 {
+    margin-top: 2px;
+}
+
+.ai-kicker {
+    display: block;
+    color: #927044;
+    font-size: .67rem;
+    font-weight: 900;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.ai-status {
+    flex: 0 0 auto;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #e8efdf;
+    color: #4b7457;
+    font-size: .7rem;
+    font-weight: 850;
+}
+
+.ai-status.running {
+    background: #fff0c9;
+    color: #855d12;
+}
+
+.ai-intro {
+    margin: 7px 0 13px !important;
+}
+
+.ai-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.ai-actions button {
+    padding: 9px 8px;
+    font-size: .82rem;
+}
+
+.ai-actions .danger {
+    grid-column: 1 / -1;
+    color: #8a3f35;
+    border-color: #d9aaa2;
+    background: #fff7f5;
+}
+
+.ai-progress {
+    height: 7px;
+    margin: 15px 0 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e8dfce;
+}
+
+.ai-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #d09a45, #3d7153);
+    transition: width .2s ease;
+}
+
+.ai-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.ai-stats div {
+    min-width: 0;
+    padding: 8px 3px;
+    border-radius: 9px;
+    background: #f4efe5;
+    text-align: center;
+}
+
+.ai-stats strong,
+.ai-stats span {
+    display: block;
+}
+
+.ai-stats strong {
+    color: #304d3c;
+    font-size: 1rem;
+}
+
+.ai-stats span {
+    margin-top: 2px;
+    color: #777267;
+    font-size: .61rem;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.ai-narration {
+    min-height: 42px;
+    margin-top: 11px;
+    color: #655945;
+    font-size: .78rem;
+    line-height: 1.42;
+}
+
+.board.ai-running .piece {
+    cursor: wait;
+}
+
 @media (max-width: 700px) {
     .layout {
         grid-template-columns: 1fr;
     }
 
     .side {
-        order: -1;
+        order: 0;
     }
 
     .game-panel,
@@ -321,6 +445,12 @@ kbd {
 
     .board-container {
         padding-top: 12px;
+    }
+}
+
+@media (max-width: 420px) {
+    .ai-stats {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 

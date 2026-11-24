@@ -10,6 +10,8 @@ Abra o `index.html` no navegador, ou publique o repositório pelo GitHub Pages.
 - Arraste as peças com mouse ou toque; clique e use as setas do teclado.
 - Botões de desfazer e reiniciar.
 - O objetivo é levar o bloco 2×2 do ratinho até a saída central inferior.
+- Laboratório de IA com aprendizagem por reforço guiada por demonstração, estatísticas e três velocidades.
+- Solucionador por busca exata para demonstrar o menor número possível de movimentos.
 
 ## Publicar no GitHub Pages
 

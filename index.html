@@ -51,6 +51,39 @@
                         <strong>Controles:</strong> use o dedo ou mouse para deslizar; também é possível clicar numa peça e movê-la com as <kbd>setas</kbd> do teclado.
                     </div>
                     <div id="toast" aria-live="polite"></div>
+
+                    <section class="ai-panel" aria-labelledby="aiTitle">
+                        <div class="ai-heading">
+                            <div>
+                                <span class="ai-kicker">Laboratório</span>
+                                <h2 id="aiTitle">IA do Ratinho</h2>
+                            </div>
+                            <span id="aiStatus" class="ai-status">Pronta</span>
+                        </div>
+                        <p class="ai-intro">Veja a IA explorar o tabuleiro, aprender com recompensas e demonstrações, e comparar seu resultado com a solução ótima.</p>
+
+                        <div class="ai-actions">
+                            <button id="trainAi" class="primary">Treinar IA</button>
+                            <button id="playOptimal">Ver solução ótima</button>
+                            <button id="stopAi" class="danger" disabled>Parar</button>
+                        </div>
+
+                        <label for="aiSpeed">Velocidade da simulação</label>
+                        <select id="aiSpeed">
+                            <option value="normal">Normal — acompanhar</option>
+                            <option value="fast" selected>Rápida — visualizar</option>
+                            <option value="turbo">Turbo — calcular</option>
+                        </select>
+
+                        <div class="ai-progress" aria-hidden="true"><span id="aiProgress"></span></div>
+                        <div class="ai-stats" aria-live="polite">
+                            <div><strong id="aiAttempts">0</strong><span>Tentativas</span></div>
+                            <div><strong id="aiCurrent">—</strong><span>Atual</span></div>
+                            <div><strong id="aiBest">—</strong><span>Melhor IA</span></div>
+                            <div><strong id="aiOptimal">—</strong><span>Mínimo</span></div>
+                        </div>
+                        <div id="aiNarration" class="ai-narration">Escolha um desafio e inicie o treinamento.</div>
+                    </section>
                 </aside>
             </div>
 
