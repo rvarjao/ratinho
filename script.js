@@ -551,6 +551,7 @@ async function playOptimal() {
     const runId = ++aiRun;
     const start = deepCopy(LEVELS[level]);
     setAiBusy(true, 'Calculando');
+    board.scrollIntoView({behavior: 'smooth', block: 'center'});
     aiNarration.textContent = 'Procurando a menor sequência possível sem tentativas aleatórias…';
     msg.textContent = '';
     toast.textContent = '';
