@@ -210,7 +210,7 @@ function load(i) {
     level = Math.min(LEVELS.length - 1, Math.max(0, Number(i) || 0));
     pieces = deepCopy(LEVELS[level]);
     history = [];
-    selected = null;
+    selected = 0;
     moves = 0;
     won = false;
     drag = null;
@@ -573,6 +573,7 @@ async function playOptimal() {
 }
 
 function render() {
+    const hadPieceFocus = document.activeElement?.classList.contains('piece');
     board.querySelectorAll('.piece').forEach(el => el.remove());
     const cell = board.clientWidth / 4;
     pieces.forEach(([x, y], i) => {
@@ -587,6 +588,7 @@ function render() {
         e.tabIndex = 0;
         e.setAttribute('role', 'button');
         e.setAttribute('aria-label', i === 0 ? 'Ratinho' : `Peça ${i}`);
+        e.setAttribute('aria-pressed', String(selected === i));
         if (i === 0) e.innerHTML = '<span aria-hidden="true">🐭</span>';
         e.addEventListener('pointerdown', ev => {
             if (won) return;
@@ -623,6 +625,7 @@ function render() {
         });
         board.appendChild(e)
     });
+    if (hadPieceFocus) board.querySelector(`.piece[data-index="${selected}"]`).focus({preventScroll: true});
     movesEl.textContent = `${moves} movimento${moves===1?'':'s'}`;
     document.querySelector('#undo').disabled = aiBusy || !history.length;
     document.querySelector('#reset').disabled = aiBusy;
@@ -630,12 +633,38 @@ function render() {
 }
 
 function renderSelection() {
-    board.querySelectorAll('.piece').forEach(e =>
-        e.classList.toggle('selected', Number(e.dataset.index) === selected)
-    )
+    board.querySelectorAll('.piece').forEach(e => {
+        const isSelected = Number(e.dataset.index) === selected;
+        e.classList.toggle('selected', isSelected);
+        e.setAttribute('aria-pressed', String(isSelected))
+    })
 }
+
+function selectInDirection(dx, dy) {
+    const [sx, sy] = pieces[selected];
+    const [sw, sh] = SIZES[selected];
+    const centerX = sx + sw / 2, centerY = sy + sh / 2;
+    const candidates = pieces.map(([x, y], i) => {
+        if (i === selected) return null;
+        const [w, h] = SIZES[i];
+        const distance = (x + w / 2 - centerX) * dx + (y + h / 2 - centerY) * dy;
+        if (distance <= 0) return null;
+        const sideGap = dx
+            ? Math.max(0, Math.max(sy, y) - Math.min(sy + sh, y + h) + 0.5)
+            : Math.max(0, Math.max(sx, x) - Math.min(sx + sw, x + w) + 0.5);
+        return {i, distance, sideGap}
+    }).filter(Boolean);
+    candidates.sort((a, b) => a.sideGap - b.sideGap || a.distance - b.distance);
+    if (candidates.length) {
+        selected = candidates[0].i;
+        renderSelection();
+        board.querySelector(`.piece[data-index="${selected}"]`).focus({preventScroll: true})
+    }
+}
+
 document.addEventListener('keydown', ev => {
-    if (selected === null || ev.target.tagName === 'SELECT') return;
+    if (ev.ctrlKey || ev.altKey || ev.metaKey ||
+        ['SELECT', 'INPUT', 'TEXTAREA'].includes(ev.target.tagName) || ev.target.isContentEditable) return;
     const dirs = {
         ArrowLeft: [-1, 0],
         ArrowRight: [1, 0],
@@ -645,6 +674,13 @@ document.addEventListener('keydown', ev => {
     if (dirs[ev.key]) {
         ev.preventDefault();
         move(selected, ...dirs[ev.key])
+    } else {
+        const navigation = {a: [-1, 0], d: [1, 0], w: [0, -1], s: [0, 1]};
+        const direction = navigation[ev.key.toLowerCase()];
+        if (direction) {
+            ev.preventDefault();
+            selectInDirection(...direction)
+        }
     }
 });
 document.querySelector('#reset').addEventListener('click', () => load(level));
